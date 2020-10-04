@@ -16,59 +16,47 @@ public class main2 {
     //    480.jpg - 001.jpg
 
     public static void main(String[] args) {
-        String path1 = "M:\\1";     //path1 указывает на директорию c файлами
-        String path2 = "M:\\2\\";   //path2 куда будут перемещены переименованные файлы
+        String path1 = "M:\\1\\";       //path1 указывает на директорию c файлами
+        File dir = new File(path1);
+        String path2 = "M:\\2\\";       //path2 куда будут перемещены переименованные файлы
 
         int start = 40;     // номер с которого начинается нумерация файлов
-//        int stop = 480;     // на файле с каким номером закончить
-        int stop = 441;     // на файле с каким номером закончить
+        int stop = 441;     // на какой номер переименовать
+        int n = String.valueOf(stop).length(); // количество знаков в числе
 
-//        int first = 40;
-        int newFirst = 441;
-//        int n1 = String.valueOf(start).length();
-//        int n2 = String.valueOf(stop).length();
-//        int n1 = 3; // количество знаков в числе
-        int n = String.valueOf(newFirst).length();
+        String name = "";   // имя текущего файла
+        String st1 = "";    // номер текущего файла
 
-        int a;
+        int k;  // номер нового файла
+        int a;  // количество знаков в номере нового файла,
+                // чтобы заполнить сколько надо до него нулями
 
-        String st1 = "";
-        String st2 = "";
-        String name = "";
+        StringBuilder sb = new StringBuilder(); // собирает номер нового файла
+        File newFile;                           // полное имя нового файла
 
-        StringBuilder sb = new StringBuilder();
+        for ( File file : dir.listFiles()) {    // перебираем в папке все файлы и директории
+            if ( file.isFile() ) {                  // если это файл, то работаем с ним. Директории не трогаем
+                name = file.getName();              // имя текущего файла
+                st1 = name.split(" ")[0];       // выделяем первые цифры
+                k = start + stop - Integer.valueOf(st1);    // преобразуем в номер и вычисляем новый номер
 
-
-        File dir = new File(path1);
-        File newFile;
-
-        for ( File file : dir.listFiles()) {
-            name = file.getName();
-            st1 = name.split(" ")[0];
-
-            int k = start + stop - Integer.valueOf(st1);
-
-            if ( file.isFile() ) {
-                System.out.println(st1);
-                a = String.valueOf(k).length();
-                while (a++ < n) {
-                    sb.append("0");
+                a = String.valueOf(k).length();         // измеряем длинну нового номера
+                while (a++ < n) {                   // если новый номер будет короче
+                    sb.append("0");             // дописываем нули пока все ровно не будет
                 }
-                sb.append(k);
+                sb.append(k);           // новый номер сформирован
 
-//                st2 = String.valueOf(start + stop - Integer.valueOf(st1));
-                System.out.println(sb);
+                newFile = new File(path2 + name.replace(st1, sb)); // имя файла собираем заменой номера в имени старого файла
 
-                newFile = new File(path2 + name.replace(st1, sb));
-
-                if (file.renameTo(newFile)) {
+                if (file.renameTo(newFile)) {       // для контроля
                     System.out.println("Файл " + name + " перемещен успешно");
                 } else {
-                    System.out.println("Файл " + name + " не был перемещен");
+                    System.out.println("Файл " + name + " не был перемещен");   // если файл там уже существовал
                 }
+                sb = new StringBuilder();   // обнуляем
             }
-            sb = new StringBuilder();
         }
+
 
     }
 }

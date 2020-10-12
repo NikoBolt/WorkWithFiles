@@ -24,7 +24,7 @@ public class ReadDirs {
         }
     }
     public ReadDirs(String path, String out, String pre) {
-        pre = path;
+//        pre = path;
         File dir = new File(path);
         try(FileOutputStream outfile = new FileOutputStream(out)) {
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outfile));

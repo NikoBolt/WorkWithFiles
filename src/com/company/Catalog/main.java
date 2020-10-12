@@ -1,8 +1,12 @@
 package com.company.Catalog;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+//import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class main {
     public static void main(String[] args) {
@@ -10,10 +14,6 @@ public class main {
         File dir = new File(path1);
 
         String pre = "";
-        ArrayList<String> name1 = new ArrayList<String>();
-
-//        FileOutputStream outfile = new FileOutputStream("xxx.txt");
-
 
         try(FileOutputStream outfile = new FileOutputStream("src\\com\\company\\Catalog\\xxx.txt")) {
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outfile));

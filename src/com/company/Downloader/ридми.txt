@@ -1,0 +1,43 @@
+
+откуда копировать первый файл
+    site = http://img1.unicomics.com/comics/marvel-star-wars-v2/marvel-star-wars-v2-001/01.jpg
+
+Если
+    качаем <=9 папок
+    - отрезаем с конца (preNum = 8) символов
+        site = http://img1.unicomics.com/comics/marvel-star-wars-v2/marvel-star-wars-v2-00
+
+
+
+    качаем >10 папок
+    - preNum = 9
+        site = http://img1.unicomics.com/comics/marvel-star-wars-v2/marvel-star-wars-v2-0
+
+
+    качаем только одну папку с файлами
+    - preNum = 6
+        было
+            site = http://img1.unicomics.com/comics/star-wars-adventures-han-solo-and-the-hollow-moon-of-khorya/01.jpg
+        стало
+            site = http://img1.unicomics.com/comics/star-wars-adventures-han-solo-and-the-hollow-moon-of-khorya/
+
+
+куда сохранять первый файл - "№" - (start = 1)
+    folder = F:/Комиксы Star Wars 2/Звездные Войны (2015)/№1
+получаем
+    folder = F:/Комиксы Star Wars 2/Звездные Войны (2015)/
+
+на какой папке закончить
+    stop = 9
+
+
+
+
+
+        ИТОГО:
+site = http://img1.unicomics.com/comics/marvel-star-wars-v2/marvel-star-wars-v2-00
+folder = F:/Комиксы Star Wars 2/Звездные Войны (2015)/№
+start = 1
+stop = 9
+magicNumber = 0
+preNum = 8

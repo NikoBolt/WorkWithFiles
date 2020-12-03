@@ -8,78 +8,74 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
 public class Downloader implements Runnable {
-    int stop = 100;
-    String num;
-    String url0;
-    String dest;
+    private int stop = 99;
+    private String num;
+//    int num;      // int не подходит, т.к. может быть равен "01"..."059"
+    private String url0;
+    private String dest;
+    private int count = 1;
 
-    int magicNumber;
+    private String url;
+    private String filename;
 
-    public Downloader(String num, String url0, String dest, int magicNumber){
+    public Downloader(String num, String url0, String dest){
+//    public Downloader(int num, String url0, String dest){
         this.num = num;
         this.url0 = url0;
         this.dest = dest;
-        this.magicNumber = magicNumber;
+    }
+
+    public Downloader(String num, String url0, String dest, int stop){
+//    public Downloader(int num, String url0, String dest, int stop){
+        this(num, url0, dest);
+        this.stop = stop;
     }
 
     @Override
     public void run() {
-        System.out.println(dest + 1);
-        if (num.equals("-1")){
-            new File(dest).mkdirs();
-            String url;
-            String filename;
 
-            try {
-                for (int i = 1; i <= 9; i++) {
-                    url = url0 + "0" + i + ".jpg";
-                    filename = dest + "0" + i + ".jpg";
-                    System.out.println(dest + 2);
-                    downloadUsingNIO(url, filename);
-                    System.out.println(num + " - " + i);
-                }
-                for (int i = 10; i <= stop; i++) {
-                    url = url0 + i + ".jpg";
-                    filename = dest + i + ".jpg";
-                    downloadUsingNIO(url, filename);
-                    System.out.println(num + " - " + i);
-                }
+//        String url1 = url0 + num + "/";
+//        String filePreName = dest + "№"+ num + "/";
+//        System.out.println("скачиваю в " + filePreName);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("\n=> скачал: " + num + "\n");
-                printLog.getInstance().logNext();
-            }
+        new File(dest).mkdirs();
+
+        if (stop < 10) {
+            for1(url0, dest, stop);
+            System.out.println("1");
         } else {
-            String url1 = url0 + /*"0" +*/ num + "/";
-
-            String filePreName = dest + "№"+ (Integer.parseInt(num) + magicNumber) + "/";
-//        String filePreName =  dest + (Integer.parseInt(num) + " Параллели " + num + "-5" ) + "/";
-            new File(filePreName).mkdirs();
-            String url;
-            String filename;
-
-            try {
-                for (int i = 1; i <= 9; i++) {
-                    url = url1 + "0" + i + ".jpg";
-                    filename = filePreName + "0" + i + ".jpg";
-                    downloadUsingNIO(url, filename);
-                    System.out.println(num + " - " + i);
+            System.out.println("2");
+            if (stop < 100) {
+                System.out.println("3");
+                for1(url0 + "0", dest + "0", 9);
+                for1(url0, dest, stop);
+            } else {
+                System.out.println("4");
+                if (stop < 1000) {
+                    System.out.println("5");
+                    for1(url0 + "00", dest + "00", 9);
+                    for1(url0 + "0", dest + "0", 99);
+                    for1(url0, dest, stop);
                 }
-                for (int i = 10; i <= stop; i++) {
-                    url = url1 + i + ".jpg";
-                    filename = filePreName + i + ".jpg";
-                    downloadUsingNIO(url, filename);
-                    System.out.println(num + " - " + i);
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("\n=> скачал: " + num + "\n");
-                printLog.getInstance().logNext();
             }
         }
     }
+
+    private void for1(String url1, String dest, int stop){
+        try {
+            for (; count <= stop; count++) {
+                    url = url1 + count + ".jpg";
+                    filename = dest + count + ".jpg";
+                downloadUsingNIO(url, filename);
+                    System.out.println(num + " - " + count);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("\n=> скачал: " + num + "\n");
+            printLog.getInstance().logNext();
+        }
+    }
+
     private static void downloadUsingNIO(String urlStr, String file) throws IOException {
         URL url = new URL(urlStr);
         ReadableByteChannel rbc = Channels.newChannel(url.openStream());

@@ -1,7 +1,6 @@
 package com.company.Downloader;
 
 public class Manager implements Runnable {
-//    PropertiesReader prop;
 
     int magicNumber = 8; // Сколько символов удалить,
             // чтоб получить адрес файла без номера
@@ -15,35 +14,27 @@ public class Manager implements Runnable {
     String folder = ""; // Папка в которую записывать
     int start = 1;      // Номер папки с которой начать
     int stop = 1;       // Номер папки на которой закончить
-//    int preNum = 5;     // Сколько символов удалено
-//    int preNum = 5;     // Сколько символов удалить с конца сайта
     String num = "";        // сколько всего папок
 
     public Manager(PropertiesReader prop) {
-//        this.prop = prop;
-
         site = prop.site;
         folder = prop.folder;
         start = prop.start;
         stop = prop.stop;
-//        preNum = prop.preNum;
-        num = prop.num;
+        int count = stop - start + 1;
+        num = String.valueOf(count);
+        if (count<10) magicNumber = 8;
+        else magicNumber = 9;
 
         printLog.getInstance().setStop(1 + stop - start);
         System.out.println(prop.folder);
-
-        System.out.println("7");
     }
 
     @Override
     public void run() {
-        System.out.println("8");
-
         String url1 = site.substring(0, site.length() - magicNumber); // отрезаю конец от адреса
         String url2;
         String filePreName = "";
-
-
 
         if (stop < 10 ) { // Если номер папок меньше 10
             for (int i = start; i <= stop; i++) {
@@ -52,12 +43,8 @@ public class Manager implements Runnable {
                 filePreName = folder + "№"+ i + "/";    // добавляю папку
                 System.out.println("скачиваю в " + filePreName);
                 new Thread(new Downloader(""+ i, url2, filePreName)).start();
-//                new Thread(new Downloader(String.valueOf(i), site, filePreName)).start();
             }
-        } else if (stop < 100 ) {   // Если число папок больше 10, то придется дописывать нули
-
-            System.out.println("9");
-
+        } else if (stop < 100 ) {
             for (int i = start; i <= 9; i++) {
                 url2 = url1 + "0" + i + "/";            // добавляю нужный конец адреса
                 filePreName = folder + "№" + "0" + i + "/";    // добавляю папку
@@ -69,7 +56,6 @@ public class Manager implements Runnable {
                 new Thread(new Downloader("" + i, url2, filePreName)).start();
             }
         }
-        System.out.println("10");
     }
 }
 

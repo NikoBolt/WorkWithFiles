@@ -19,14 +19,12 @@ public class Downloader implements Runnable {
     private String filename;
 
     public Downloader(String num, String url0, String dest){
-//    public Downloader(int num, String url0, String dest){
         this.num = num;
         this.url0 = url0;
         this.dest = dest;
     }
 
     public Downloader(String num, String url0, String dest, int stop){
-//    public Downloader(int num, String url0, String dest, int stop){
         this(num, url0, dest);
         this.stop = stop;
     }
@@ -34,25 +32,16 @@ public class Downloader implements Runnable {
     @Override
     public void run() {
 
-//        String url1 = url0 + num + "/";
-//        String filePreName = dest + "№"+ num + "/";
-//        System.out.println("скачиваю в " + filePreName);
-
         new File(dest).mkdirs();
 
         if (stop < 10) {
             for1(url0, dest, stop);
-            System.out.println("1");
         } else {
-            System.out.println("2");
             if (stop < 100) {
-                System.out.println("3");
                 for1(url0 + "0", dest + "0", 9);
                 for1(url0, dest, stop);
             } else {
-                System.out.println("4");
                 if (stop < 1000) {
-                    System.out.println("5");
                     for1(url0 + "00", dest + "00", 9);
                     for1(url0 + "0", dest + "0", 99);
                     for1(url0, dest, stop);
@@ -71,8 +60,11 @@ public class Downloader implements Runnable {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("\n=> скачал: " + num + "\n");
-            printLog.getInstance().logNext();
+//            System.out.println("\n=> скачал: " + num + "\n");
+//            printLog.getInstance().logNext();
+//            printLog.getInstance().setDone(Integer.getInteger(num));
+//            printLog.getInstance().printDone();
+//            System.out.println("======");
         }
     }
 
